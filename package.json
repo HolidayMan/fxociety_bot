@@ -7,7 +7,7 @@
 		"start": "python main.py"
 	},
 	"engines": {
-	"python": "3.6"
+	"python": "3.6.6"
 	},
 	"author": "",
 	"license": "ISC",
