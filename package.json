@@ -10,6 +10,6 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"telebot": "3.0.0"
+		"pyTelegramBotAPI": "3.0.0"
 	}
 }
