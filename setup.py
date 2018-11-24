@@ -39,7 +39,7 @@ def filter_word(mess):
 if __name__ == '__main__':
 	print('Bot started')
 	while True:
-	try:
-		bot.polling(none_stop=True, timeout=0.02)
-	except requests.exceptions.ConnectionError:
-		time.sleep(15)
+		try:
+			bot.polling(none_stop=True, timeout=0.02)
+		except requests.exceptions.ConnectionError:
+			time.sleep(15)
