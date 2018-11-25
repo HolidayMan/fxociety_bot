@@ -1,3 +1,4 @@
+
 import telebot
 import constants
 import re
@@ -62,18 +63,18 @@ def filter_word(mess):
 				return 0
 			except telebot.apihelper.ApiException:
 				return 0
-	if mess.text.lower() in bad_words1:
-		try:
-			bot.delete_message(mess.chat.id, mess.message_id)
-			return 0
-		except telebot.apihelper.ApiException:
-			return 0
-	if mess.text.lower() in ['да','нет']:
-		try:
-			bot.send_message(mess.chat.id, 'По-развернутей, пожалуйста')
-			return 0
-		except telebot.apihelper.ApiException:
-			return 0
+		if mess.text.lower() in bad_words1:
+			try:
+				bot.delete_message(mess.chat.id, mess.message_id)
+				return 0
+			except telebot.apihelper.ApiException:
+				return 0
+		if mess.text.lower() in ['да','нет']:
+			try:
+				bot.send_message(mess.chat.id, 'По-развернутей, пожалуйста')
+				return 0
+			except telebot.apihelper.ApiException:
+				return 0
 
 if __name__ == '__main__':
 	print('Bot started')
@@ -81,5 +82,8 @@ if __name__ == '__main__':
 		try:
 			threading.Thread(target=bot.polling(none_stop=True))
 		except requests.exceptions.ConnectionError:
+			print("Bot is sleeping...")
 			time.sleep(15)
-	
+			print('Bot is waking up...')
+			time.seep(2)
+			print('Bot is working!')
