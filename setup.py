@@ -77,4 +77,9 @@ def filter_word(mess):
 
 if __name__ == '__main__':
 	print('Bot started')
-threading.Thread(target=bot.polling(none_stop=True))
+	while True:
+		try:
+			threading.Thread(target=bot.polling(none_stop=True))
+		except requests.exceptions.ConnectionError:
+			time.sleep(15)
+	
