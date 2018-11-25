@@ -1,4 +1,3 @@
-
 import telebot
 import constants
 import re
@@ -51,8 +50,16 @@ def bomb(mess):
 		except telebot.apihelper.ApiException:
 			i+=1
 
-bad_words = constants.bad_words
-bad_words1 = constants.bad_words1
+with open('bad_words.txt','r') as f:
+	file = f.read().split()
+bad_words = []
+for i in file:
+	if i == '----':
+		break
+	bad_words.append(i)
+bad_words1 = []
+for i in range(len(bad_words)+1,len(file)):
+	bad_words1.append(file[i])
 @bot.message_handler(content_types=['text'])
 def filter_word(mess):
 	message = filter(None, re.split("[, \-!?:]+", mess.text))
@@ -77,12 +84,5 @@ def filter_word(mess):
 				return 0
 
 if __name__ == '__main__':
-	print('[*] Bot started')
-	while True:
-		try:
-			bot.polling(none_stop=True,interval=0)
-		except (requests.exceptions.ReadTimeout, urllib3.exceptions.ReadTimeoutError):
-			print('[-] Bot is sleeping')
-			time.sleep(15)
-			print('[-] Bot is working')
-	
+	print('Bot started')
+	bot.polling(none_stop=True,interval=0)
