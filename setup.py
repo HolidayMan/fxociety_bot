@@ -77,5 +77,12 @@ def filter_word(mess):
 				return 0
 
 if __name__ == '__main__':
-	print('Bot started')
-	bot.polling(none_stop=True,interval=0)
+	print('[*] Bot started')
+	while True:
+		try:
+			bot.polling(none_stop=True,interval=0)
+		except requests.exceptions.ReadTimeout:
+			print('[-] Bot is sleeping')
+			time.sleep(15)
+			print('[-] Bot is working')
+	
