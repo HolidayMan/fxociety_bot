@@ -76,7 +76,7 @@ def filter_word(mess):
 				return 0
 			except telebot.apihelper.ApiException:
 				return 0
-		if mess.text.lower() in ['да','нет']:
+		if mess.text.lower() in ['да','нет','нельзя']:
 			try:
 				bot.send_message(mess.chat.id, 'По-развернутей, пожалуйста')
 				return 0
