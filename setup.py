@@ -88,7 +88,7 @@ if __name__ == '__main__':
 	while True:
 		try:
 			bot.polling(none_stop=True,interval=0)
-		except (requests.exceptions.ReadTimeout, urllib3.exceptions.ReadTimeoutError):
+		except urllib3.exceptions.ReadTimeoutError:
 			print('[-] Bot is sleeping')
 			time.sleep(15)
 			print('[-] Bot is working')
