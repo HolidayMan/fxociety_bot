@@ -62,7 +62,7 @@ for i in range(len(bad_words)+1,len(file)):
 	bad_words1.append(file[i])
 @bot.message_handler(content_types=['text'])
 def filter_word(mess):
-	message = filter(None, re.split("[, \-!?:]+", mess.text))
+	message = filter(None, re.split("[, \-_!?:$;#@]+", mess.text))
 	for i in message:
 		if i.lower() in bad_words:
 			try:
