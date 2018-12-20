@@ -1,12 +1,9 @@
 import telebot
+import constants
 import re
 import time
-import threading
 
-with open('token.txt', 'r') as f:
-	token = ''.join(f.read().split())
-
-bot = telebot.TeleBot(token)
+bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start(mess):
