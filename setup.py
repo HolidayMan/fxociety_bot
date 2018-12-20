@@ -2,6 +2,7 @@ import telebot
 import constants
 import re
 import time
+import random
 
 bot = telebot.TeleBot(constants.token)
 
@@ -16,6 +17,24 @@ def start(mess):
 @bot.message_handler(commands=['help'])
 def help(mess):
 	bot.send_message(mess.chat.id, 'Я бот Лёхи')
+
+
+
+
+
+
+@bot.message_handler(commands=['admin_podtverdi'])
+def admin_podtverdi(mess):
+	okChance = random.randint(0,100)
+	bot.send_message(mess.chat.id, 'Вероятность подтверждения {} против {}'.format(okChance, 100 - okChance))
+	if random.randint(0,100) <= okChance:
+		bot.send_message(mess.chat.id, 'Админ подтверждает')
+	else:
+		bot.send_message(mess.chat.id, 'Не могу такое подтвердить')
+
+
+
+
 
 @bot.message_handler(commands=['petard'])
 def petard(mess):
