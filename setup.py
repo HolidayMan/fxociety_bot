@@ -6,21 +6,12 @@ import random
 
 bot = telebot.TeleBot(constants.token)
 
-@bot.message_handler(commands=['start'])
-def start(mess):
+@bot.message_handler(commands=['start', 'help'])
+def start_help(mess):
 	bot.send_message(mess.chat.id, 'Привет! Я помогаю фильтровать маты в этом чате! \n \
 	Также у меня доступны такие команды: \n\
 	/help - информация о боте; \n/petard - удаление одного сообщения перед командой (Бум)\
 	\n/bomb - удаление трех сообщений перед командой (Буум)')
-
-
-@bot.message_handler(commands=['help'])
-def help(mess):
-	bot.send_message(mess.chat.id, 'Я бот Лёхи')
-
-
-
-
 
 
 @bot.message_handler(commands=['admin_podtverdi'])
