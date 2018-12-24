@@ -23,36 +23,6 @@ def admin_podtverdi(mess):
 	else:
 		bot.send_message(mess.chat.id, 'Не могу такое подтвердить')
 
-		
-@bot.message_handler(commands=['petard'])
-def petard(mess):
-	i = 1
-	while True:
-		try:
-			bot.delete_message(mess.chat.id, mess.message_id - i)
-			time.sleep(0.5)
-			bot.delete_message(mess.chat.id, mess.message_id)
-			break
-		except telebot.apihelper.ApiException:
-			i+=1
-
-	
-@bot.message_handler(commands=['bomb'])
-def bomb(mess):
-	i = 1
-	k=1
-	while True:
-		try:
-			if k < 4: 
-				bot.delete_message(mess.chat.id, mess.message_id - i)
-				time.sleep(0.2)
-				k+=1
-			else:
-				bot.delete_message(mess.chat.id, mess.message_id)
-				break
-		except telebot.apihelper.ApiException:
-			i+=1
-
 			
 with open('bad_words.txt','r') as f:
 	file = f.read().split()
