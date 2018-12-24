@@ -36,10 +36,6 @@ def petard(mess):
 		except telebot.apihelper.ApiException:
 			i+=1
 
-@bot.message_handler(commands=['lehagay'])
-def lehagay(mess):
-	bot.send_message(mess.chat.id, 'Сам такой')
-
 	
 @bot.message_handler(commands=['bomb'])
 def bomb(mess):
