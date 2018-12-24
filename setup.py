@@ -17,16 +17,13 @@ def start_help(mess):
 @bot.message_handler(commands=['admin_podtverdi'])
 def admin_podtverdi(mess):
 	okChance = random.randint(0,100)
-	bot.send_message(mess.chat.id, 'Вероятность подтверждения {} против {}'.format(okChance, 100 - okChance))
+	bot.send_message(mess.chat.id, 'Вероятность подтверждения {}%'.format(okChance))
 	if random.randint(0,100) <= okChance:
 		bot.send_message(mess.chat.id, 'Админ подтверждает')
 	else:
 		bot.send_message(mess.chat.id, 'Не могу такое подтвердить')
 
-
-
-
-
+		
 @bot.message_handler(commands=['petard'])
 def petard(mess):
 	i = 1
@@ -43,6 +40,7 @@ def petard(mess):
 def lehagay(mess):
 	bot.send_message(mess.chat.id, 'Сам такой')
 
+	
 @bot.message_handler(commands=['bomb'])
 def bomb(mess):
 	i = 1
@@ -59,6 +57,7 @@ def bomb(mess):
 		except telebot.apihelper.ApiException:
 			i+=1
 
+			
 with open('bad_words.txt','r') as f:
 	file = f.read().split()
 bad_words = []
@@ -69,6 +68,8 @@ for i in file:
 bad_words1 = []
 for i in range(len(bad_words)+1,len(file)):
 	bad_words1.append(file[i])
+	
+	
 @bot.message_handler(content_types=['text'])
 def filter_word(mess):
 	message = filter(None, re.split("[, \-_!?:$;#@()%^0&*+]+", mess.text))
@@ -92,6 +93,7 @@ def filter_word(mess):
 			except telebot.apihelper.ApiException:
 				return 0
 
+			
 if __name__ == '__main__':
 	print('Bot started')
 	while True:
