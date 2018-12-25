@@ -2,6 +2,7 @@ import telebot
 import constants
 import re
 import random
+import time
 
 bot = telebot.TeleBot(constants.token)
 
@@ -57,3 +58,9 @@ def filter_word(mess):
 				return 0
 			except telebot.apihelper.ApiException:
 				return 0
+if __name__ == '__main__':
+	while True:
+		try:
+			bot.polling(none_stop=True)
+		except:
+			time.sleep(15)
