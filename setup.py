@@ -20,16 +20,18 @@ def echo_message(message):
 
 @server.route('/bot' + TOKEN, methods=['POST'])
 def getMessage():
+	print('started getMessage')
 	bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
 	return "!", 200
 
 
 @server.route("/")
 def webhook():
+	print('started webhook')
 	bot.remove_webhook()
 	bot.set_webhook(url='https://whtesting.herokuapp.com/' + TOKEN)
 	return "!", 200
 
 
 if __name__ == "__main__":
-	server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+	server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 80)))
