@@ -1,103 +1,35 @@
-import telebot
+import os
+from flask import Flask, request
 import constants
-import re
-import time
-import random
+import telebot
 
-bot = telebot.TeleBot(constants.token)
-
-@bot.message_handler(commands=['start', 'help'])
-def start_help(mess):
-	bot.send_message(mess.chat.id, 'Привет! Я помогаю фильтровать маты в этом чате! \n \
-	Также у меня доступны такие команды: \n\
-	/help - информация о боте; \n/petard - удаление одного сообщения перед командой (Бум)\
-	\n/bomb - удаление трех сообщений перед командой (Буум)')
+TOKEN = constants.token
+bot = telebot.TeleBot(TOKEN)
+server = Flask(__name__)
 
 
-@bot.message_handler(commands=['admin_podtverdi'])
-def admin_podtverdi(mess):
-	okChance = random.randint(0,100)
-	bot.send_message(mess.chat.id, 'Вероятность подтверждения {} против {}'.format(okChance, 100 - okChance))
-	if random.randint(0,100) <= okChance:
-		bot.send_message(mess.chat.id, 'Админ подтверждает')
-	else:
-		bot.send_message(mess.chat.id, 'Не могу такое подтвердить')
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
 
 
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.reply_to(message, message.text)
 
 
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
 
-@bot.message_handler(commands=['petard'])
-def petard(mess):
-	i = 1
-	while True:
-		try:
-			bot.delete_message(mess.chat.id, mess.message_id - i)
-			time.sleep(0.5)
-			bot.delete_message(mess.chat.id, mess.message_id)
-			break
-		except telebot.apihelper.ApiException:
-			i+=1
 
-@bot.message_handler(commands=['lehagay'])
-def lehagay(mess):
-	bot.send_message(mess.chat.id, 'Сам такой')
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://whtesting.herokuapp.com/' + TOKEN)
+    return "!", 200
 
-@bot.message_handler(commands=['bomb'])
-def bomb(mess):
-	i = 1
-	k=1
-	while True:
-		try:
-			if k < 4: 
-				bot.delete_message(mess.chat.id, mess.message_id - i)
-				time.sleep(0.2)
-				k+=1
-			else:
-				bot.delete_message(mess.chat.id, mess.message_id)
-				break
-		except telebot.apihelper.ApiException:
-			i+=1
 
-with open('bad_words.txt','r') as f:
-	file = f.read().split()
-bad_words = []
-for i in file:
-	if i == '----':
-		break
-	bad_words.append(i)
-bad_words1 = []
-for i in range(len(bad_words)+1,len(file)):
-	bad_words1.append(file[i])
-@bot.message_handler(content_types=['text'])
-def filter_word(mess):
-	message = filter(None, re.split("[, \-_!?:$;#@()%^0&*+]+", mess.text))
-	for i in message:
-		if i.lower() in bad_words:
-			try:
-				bot.delete_message(mess.chat.id, mess.message_id)
-				return 0
-			except telebot.apihelper.ApiException:
-				return 0
-		if mess.text.lower() in bad_words1:
-			try:
-				bot.delete_message(mess.chat.id, mess.message_id)
-				return 0
-			except telebot.apihelper.ApiException:
-				return 0
-		if mess.text.lower() in ['да','нет','нельзя']:
-			try:
-				bot.send_message(mess.chat.id, 'По-развернутей, пожалуйста')
-				return 0
-			except telebot.apihelper.ApiException:
-				return 0
-
-if __name__ == '__main__':
-	print('Bot started')
-	while True:
-		try:
-			bot.polling(none_stop=True,interval=0)
-		except urllib3.exceptions.ReadTimeoutError:
-			print('[-] Bot is sleeping')
-			time.sleep(15)
-print('[-] Bot is working')
+if __name__ == "__main__":
+server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
